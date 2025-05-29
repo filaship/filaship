@@ -1912,8 +1912,8 @@
                 "laravel"
             ],
             "support": {
-                "issues": "https://github.com/laravel-zero/laravel-zero/issues",
-                "source": "https://github.com/laravel-zero/laravel-zero"
+                "issues": "https://github.com/filaship/filaship/issues",
+                "source": "https://github.com/filaship/filaship"
             },
             "funding": [
                 {
