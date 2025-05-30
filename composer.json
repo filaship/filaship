@@ -1,7 +1,13 @@
 {
     "name": "filaship/filaship",
     "description": "The Laravel Zero Framework.",
-    "keywords": ["framework", "laravel", "laravel zero", "console", "cli"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "laravel zero",
+        "console",
+        "cli"
+    ],
     "homepage": "https://laravel-zero.com",
     "type": "project",
     "license": "MIT",
@@ -10,10 +16,10 @@
         "source": "https://github.com/filaship/filaship"
     },
     "require": {
-        "php": "^8.2.0",
-        "laravel-zero/framework": "^11.36.1"
+        "php": "^8.2.0"
     },
     "require-dev": {
+        "laravel-zero/framework": "^11.36.1",
         "laravel/pint": "^1.18.3",
         "mockery/mockery": "^1.6.12",
         "pestphp/pest": "^3.7.1"
@@ -38,7 +44,9 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["filaship"]
+    "bin": [
+        "builds/filaship"
+    ]
 }
