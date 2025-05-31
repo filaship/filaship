@@ -23,6 +23,11 @@
         "mockery/mockery": "^1.6.12",
         "pestphp/pest": "^3.7.1"
     },
+    "scripts": {
+        "build": [
+            "php filaship app:build filaship"
+        ]
+    },
     "autoload": {
         "psr-4": {
             "Filaship\\": "app/"

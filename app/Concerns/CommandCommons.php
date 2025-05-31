@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Filaship\Concerns;
 
+use Illuminate\Contracts\Process\ProcessResult;
 use Illuminate\Support\Facades\Process;
 
 use function Laravel\Prompts\error;
@@ -27,19 +28,13 @@ trait CommandCommons
         return $currentDirectory;
     }
 
-    public function runProcess(string $command): int
+    public function runProcess(string $command): ProcessResult
     {
         $process = Process::forever()
             ->path($this->currentDirectory)
             ->run($command);
 
-        if ($process->failed()) {
-            error('Command failed: ' . $process->errorOutput());
-
-            return self::FAILURE;
-        }
-
-        return self::SUCCESS;
+        return $process;
     }
 
     /**
