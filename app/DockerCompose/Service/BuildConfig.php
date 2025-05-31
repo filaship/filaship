@@ -6,6 +6,12 @@ namespace Filaship\DockerCompose\Service;
 
 class BuildConfig
 {
+    /**
+     * @param array<string> $args
+     * @param array<string> $labels
+     * @param array<string> $cacheFrom
+     * @param array<string> $extra
+     */
     public function __construct(
         public ?string $context = null,
         public ?string $dockerfile = null,
@@ -17,6 +23,9 @@ class BuildConfig
     ) {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return array_filter([
@@ -27,9 +36,12 @@ class BuildConfig
             'target'     => $this->target,
             'cache_from' => $this->cacheFrom,
             'extra'      => $this->extra,
-        ], fn ($value) => $value !== null && $value !== []);
+        ], fn ($value): bool => $value !== null && $value !== []);
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function fromArray(array $data): self
     {
         return new self(
@@ -59,6 +71,9 @@ class BuildConfig
         };
     }
 
+    /**
+     * @return array<string, mixed>|string
+     */
     public function serialize(): array | string
     {
         $array = $this->toArray();

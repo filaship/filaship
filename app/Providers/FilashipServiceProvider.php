@@ -22,7 +22,7 @@ class FilashipServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(DockerCompose::class, function ($app) {
+        $this->app->singleton(DockerCompose::class, function ($app): DockerCompose {
             return new DockerCompose();
         });
 

@@ -8,6 +8,12 @@ use Filaship\Contracts\DockerComposeComponentInterface;
 
 class Volume implements DockerComposeComponentInterface
 {
+    /**
+     * @param array<string> $driverOpts
+     * @param array<string> $labels
+     * @param mixed|null $external
+     * @param array<string> $extra
+     */
     public function __construct(
         public string $name,
         public ?string $driver = null,
@@ -27,7 +33,7 @@ class Volume implements DockerComposeComponentInterface
             'labels'      => $this->labels,
             'external'    => $this->external,
             'extra'       => $this->extra,
-        ], fn ($value) => $value !== null && $value !== []);
+        ], fn ($value): bool => $value !== null && $value !== []);
     }
 
     public static function fromArray(string $name, array $data): self

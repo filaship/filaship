@@ -1,5 +1,15 @@
 parameters:
-	level: 6
-	paths:
-		- app
-		- tests
+    level: 6
+    paths:
+        - app
+        - tests
+    ignoreErrors:
+        -
+            message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase::artisan\(\)\.$#'
+            path: tests/Feature/Commands/UpCommandTest.php
+        -
+            message: '#^Access to an undefined property PHPUnit\\Framework\\TestCase::\$app\.$#'
+            path: tests/Feature/Commands/UpCommandTest.php
+        -
+            message: '#^Undefined variable: \$this$#'
+            path: tests/Pest.php

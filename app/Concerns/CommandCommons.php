@@ -37,8 +37,9 @@ trait CommandCommons
 
     /**
      * Get option with default value
+     * @param mixed $default
      */
-    protected function getOptionWithDefault(string $option, $default = null)
+    protected function getOptionWithDefault(string $option, $default = null): mixed
     {
         return $this->option($option) ?? $default;
     }

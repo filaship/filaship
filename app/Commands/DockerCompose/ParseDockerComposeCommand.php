@@ -34,7 +34,7 @@ class ParseDockerComposeCommand extends Command
             info("✅ File parsed successfully!");
             note("");
 
-            if ($parsed->version) {
+            if ($parsed->version !== null && $parsed->version !== '' && $parsed->version !== '0') {
                 note("📋 Version: {$parsed->version}");
             }
 
@@ -48,7 +48,7 @@ class ParseDockerComposeCommand extends Command
                         note("    Image: {$service->image}");
                     }
 
-                    if (! empty($service->ports)) {
+                    if ($service->ports !== []) {
                         note("    Ports: " . implode(', ', $service->ports));
                     }
                 }
