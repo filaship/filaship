@@ -7,6 +7,10 @@ namespace Filaship\Commands;
 use Filaship\DockerCompose\DockerCompose;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\note;
+
 class ParseDockerComposeCommand extends Command
 {
     protected $signature = 'docker-compose:parse {file : Path to docker-compose.yaml file}';
@@ -18,7 +22,7 @@ class ParseDockerComposeCommand extends Command
         $filePath = $this->argument('file');
 
         if (! file_exists($filePath)) {
-            $this->error("File not found: {$filePath}");
+            error("File not found: {$filePath}");
 
             return 1;
         }
@@ -27,68 +31,68 @@ class ParseDockerComposeCommand extends Command
             $dockerCompose = new DockerCompose();
             $parsed        = $dockerCompose->parse($filePath);
 
-            $this->info("✅ File parsed successfully!");
-            $this->line("");
+            info("✅ File parsed successfully!");
+            note("");
 
             if ($parsed->version) {
-                $this->line("📋 Version: {$parsed->version}");
+                note("📋 Version: {$parsed->version}");
             }
 
             if ($parsed->services->count() > 0) {
-                $this->line("🐳 Services ({$parsed->services->count()}):");
+                note("🐳 Services ({$parsed->services->count()}):");
 
                 foreach ($parsed->services as $name => $service) {
-                    $this->line("  - {$name}");
+                    note("  - {$name}");
 
                     if ($service->image) {
-                        $this->line("    Image: {$service->image}");
+                        note("    Image: {$service->image}");
                     }
 
                     if (! empty($service->ports)) {
-                        $this->line("    Ports: " . implode(', ', $service->ports));
+                        note("    Ports: " . implode(', ', $service->ports));
                     }
                 }
-                $this->line("");
+                note("");
             }
 
             if ($parsed->volumes->count() > 0) {
-                $this->line("💾 Volumes ({$parsed->volumes->count()}):");
+                note("💾 Volumes ({$parsed->volumes->count()}):");
 
                 foreach ($parsed->volumes as $name => $volume) {
-                    $this->line("  - {$name}");
+                    note("  - {$name}");
                 }
-                $this->line("");
+                note("");
             }
 
             if ($parsed->networks->count() > 0) {
-                $this->line("🌐 Networks ({$parsed->networks->count()}):");
+                note("🌐 Networks ({$parsed->networks->count()}):");
 
                 foreach ($parsed->networks as $name => $network) {
-                    $this->line("  - {$name}");
+                    note("  - {$name}");
                 }
-                $this->line("");
+                note("");
             }
 
             if ($parsed->configs->count() > 0) {
-                $this->line("⚙️ Configs ({$parsed->configs->count()}):");
+                note("⚙️ Configs ({$parsed->configs->count()}):");
 
                 foreach ($parsed->configs as $name => $config) {
-                    $this->line("  - {$name}");
+                    note("  - {$name}");
                 }
-                $this->line("");
+                note("");
             }
 
             if ($parsed->secrets->count() > 0) {
-                $this->line("🔐 Secrets ({$parsed->secrets->count()}):");
+                note("🔐 Secrets ({$parsed->secrets->count()}):");
 
                 foreach ($parsed->secrets as $name => $secret) {
-                    $this->line("  - {$name}");
+                    note("  - {$name}");
                 }
-                $this->line("");
+                note("");
             }
 
             if ($this->option('verbose')) {
-                $this->line("📄 Complete structure:");
+                note("📄 Complete structure:");
                 dump($parsed->toArray());
             }
 

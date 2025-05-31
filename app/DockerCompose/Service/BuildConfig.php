@@ -54,20 +54,20 @@ class BuildConfig
     {
         return match (true) {
             is_string($buildData) => self::fromString($buildData),
-            is_array($buildData) => self::fromArray($buildData),
-            default => null,
+            is_array($buildData)  => self::fromArray($buildData),
+            default               => null,
         };
     }
 
     public function serialize(): array | string
     {
         $array = $this->toArray();
-        
+
         // If only context is set, return as string for cleaner YAML
         if (count($array) === 1 && isset($array['context'])) {
             return $array['context'];
         }
-        
+
         return $array;
     }
 }
