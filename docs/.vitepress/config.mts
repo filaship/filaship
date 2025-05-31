@@ -11,6 +11,8 @@ export default defineConfig({
       provider: 'local'
     },
 
+    logo: '/images/logo.svg',
+
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/introduction/' },
