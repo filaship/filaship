@@ -11,7 +11,7 @@ class Config implements DockerComposeComponentInterface
     public function __construct(
         public string $name,
         public ?string $file = null,
-        public ?string $external = null,
+        public string | bool | null $external = null,
         public array $labels = [],
         public array $extra = [],
     ) {

@@ -13,7 +13,7 @@ class Volume implements DockerComposeComponentInterface
         public ?string $driver = null,
         public array $driverOpts = [],
         public array $labels = [],
-        public ?string $external = null,
+        public mixed $external = null,
         public array $extra = [],
     ) {
     }

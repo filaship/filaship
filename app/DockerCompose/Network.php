@@ -13,7 +13,7 @@ class Network implements DockerComposeComponentInterface
         public ?string $driver = null,
         public array $driverOpts = [],
         public array $labels = [],
-        public ?string $external = null,
+        public string | bool | null $external = null,
         public array $ipam = [],
         public array $extra = [],
     ) {
