@@ -37,14 +37,6 @@ You can install Filaship via Composer:
 composer global require filaship/filaship
 ```
 
-## Usage
-
-### Init
-
-```bash
-filaship init
-```
-
 ## Documentation
 
 For full documentation, visit [filaship.dev](https://filaship.dev).
