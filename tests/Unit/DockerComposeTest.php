@@ -62,7 +62,10 @@ it('can parse service with build as string', function () {
 
     $service = $parsed->getService('app');
     expect($service)->toBeInstanceOf(Service::class)
-        ->and($service->build)->toBe('./app');
+        ->and($service->build)->toBeInstanceOf(BuildConfig::class)
+        ->and($service->build->context)->toBe('./app')
+        ->and($service->build->dockerfile)->toBeNull()
+        ->and($service->build->args)->toBe([]);
 });
 
 it('can parse service with command as array', function () {
