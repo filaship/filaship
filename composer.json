@@ -1,14 +1,12 @@
 {
     "name": "filaship/filaship",
-    "description": "The Laravel Zero Framework.",
+    "description": "A new, effortless way to use Docker in Laravel",
     "keywords": [
-        "framework",
+        "docker",
         "laravel",
-        "laravel zero",
-        "console",
-        "cli"
+        "filaship"
     ],
-    "homepage": "https://laravel-zero.com",
+    "homepage": "https://filaship.dev",
     "type": "project",
     "license": "MIT",
     "support": {
@@ -27,9 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Filaship\\": "app/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Filaship\\": "app/"
         }
     },
     "autoload-dev": {
