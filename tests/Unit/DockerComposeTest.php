@@ -6,7 +6,7 @@ use Filaship\DockerCompose\DockerCompose;
 use Filaship\DockerCompose\Service;
 use Filaship\DockerCompose\Service\BuildConfig;
 
-it('can parse a complete docker compose file', function () {
+it('can parse a complete docker compose file', function (): void {
     $dockerCompose = new DockerCompose();
     $parsed        = $dockerCompose->parse(__DIR__ . '/../../example-docker-compose.yaml');
 
@@ -18,7 +18,7 @@ it('can parse a complete docker compose file', function () {
         ->and($parsed->secrets)->toHaveCount(2);
 });
 
-it('can parse service with build config object', function () {
+it('can parse service with build config object', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -46,7 +46,7 @@ it('can parse service with build config object', function () {
         ->and($service->build->args)->toBe(['BUILD_ARG' => 'value']);
 });
 
-it('can parse service with build as string', function () {
+it('can parse service with build as string', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -68,7 +68,7 @@ it('can parse service with build as string', function () {
         ->and($service->build->args)->toBe([]);
 });
 
-it('can parse service with command as array', function () {
+it('can parse service with command as array', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -86,7 +86,7 @@ it('can parse service with command as array', function () {
     expect($service->command)->toBe(['php-fpm', '--nodaemonize']);
 });
 
-it('can parse service with command as string', function () {
+it('can parse service with command as string', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -104,7 +104,7 @@ it('can parse service with command as string', function () {
     expect($service->command)->toBe('nginx -g "daemon off;"');
 });
 
-it('can handle external volumes and networks', function () {
+it('can handle external volumes and networks', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -135,7 +135,7 @@ it('can handle external volumes and networks', function () {
     expect($network->external)->toBeTrue();
 });
 
-it('can convert back to array', function () {
+it('can convert back to array', function (): void {
     $dockerCompose = new DockerCompose();
     $parsed        = $dockerCompose->parse(__DIR__ . '/../../example-docker-compose.yaml');
 
@@ -148,7 +148,7 @@ it('can convert back to array', function () {
         ->and($array['version'])->toBe('3.8');
 });
 
-it('can convert back to yaml', function () {
+it('can convert back to yaml', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [

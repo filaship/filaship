@@ -9,6 +9,17 @@ use Filaship\DockerCompose\Service\BuildConfig;
 
 final class Service implements DockerComposeComponentInterface
 {
+    /**
+     * @param array<string> $ports
+     * @param array<string> $volumes
+     * @param array<string> $environment
+     * @param array<string> $dependsOn
+     * @param array<string> $networks
+     * @param array<string> $labels
+     * @param array<string>|string|null $command
+     * @param array<string> $healthcheck
+     * @param array<string> $extra
+     */
     public function __construct(
         public string $name,
         public ?string $image = null,
@@ -41,7 +52,7 @@ final class Service implements DockerComposeComponentInterface
             'restart'     => $this->restart,
             'healthcheck' => $this->healthcheck,
             'extra'       => $this->extra,
-        ], fn ($value) => $value !== null && $value !== []);
+        ], fn ($value): bool => $value !== null && $value !== []);
     }
 
     public static function fromArray(string $name, array $data): self

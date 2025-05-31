@@ -32,7 +32,7 @@ final class UpCommand extends Command
         $command = "docker compose -f {$composeFile} up {$detached}";
 
         $process = spin(
-            callback: fn () => $this->runProcess($command),
+            callback: fn (): \Illuminate\Contracts\Process\ProcessResult => $this->runProcess($command),
             message: 'Starting containers...',
         );
 

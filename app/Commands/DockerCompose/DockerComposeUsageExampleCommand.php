@@ -5,8 +5,11 @@ declare(strict_types = 1);
 namespace Filaship\Commands\DockerCompose;
 
 use Filaship\DockerCompose\DockerCompose;
+use Filaship\DockerCompose\Network;
 use Filaship\DockerCompose\Service;
 use Filaship\DockerCompose\Service\BuildConfig;
+use Filaship\DockerCompose\Volume;
+use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use LaravelZero\Framework\Commands\Command;
 
@@ -49,6 +52,9 @@ final class DockerComposeUsageExampleCommand extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function parseAndAnalyze(string $filePath): array
     {
         $dockerCompose = new DockerCompose();
@@ -62,6 +68,9 @@ final class DockerComposeUsageExampleCommand extends Command
         ];
     }
 
+    /**
+     * @return array<string, int|string|bool>
+     */
     private function generateSummary(DockerCompose $compose): array
     {
         return [
@@ -75,6 +84,10 @@ final class DockerComposeUsageExampleCommand extends Command
         ];
     }
 
+    /**
+     * @param Collection<string, Service> $services
+     * @return array<string, mixed>
+     */
     private function analyzeServices(Collection $services): array
     {
         $analysis = [
@@ -85,8 +98,8 @@ final class DockerComposeUsageExampleCommand extends Command
             'with_healthcheck' => [],
         ];
 
-        $services->each(function (Service $service) use (&$analysis) {
-            if ($service->build !== null) {
+        $services->each(function (Service $service) use (&$analysis): void {
+            if ($service->build instanceof BuildConfig) {
                 $analysis['with_build'][] = $service->name;
             }
 
@@ -94,15 +107,15 @@ final class DockerComposeUsageExampleCommand extends Command
                 $analysis['with_image'][] = $service->name;
             }
 
-            if (! empty($service->ports)) {
+            if ($service->ports !== []) {
                 $analysis['exposed_ports'][$service->name] = $service->ports;
             }
 
-            if (! empty($service->volumes)) {
+            if ($service->volumes !== []) {
                 $analysis['with_volumes'][] = $service->name;
             }
 
-            if (! empty($service->healthcheck)) {
+            if ($service->healthcheck !== []) {
                 $analysis['with_healthcheck'][] = $service->name;
             }
         });
@@ -110,12 +123,16 @@ final class DockerComposeUsageExampleCommand extends Command
         return $analysis;
     }
 
+    /**
+     * @param Collection<string, Volume> $volumes
+     * @return array<string, array<int, string>>
+     */
     private function analyzeVolumes(Collection $volumes): array
     {
         $external = [];
         $local    = [];
 
-        $volumes->each(function ($volume) use (&$external, &$local) {
+        $volumes->each(function ($volume) use (&$external, &$local): void {
             if ($volume->external) {
                 $external[] = $volume->name;
             } else {
@@ -129,12 +146,16 @@ final class DockerComposeUsageExampleCommand extends Command
         ];
     }
 
+    /**
+     * @param Collection<string, Network> $networks
+     * @return array<string, array<int, string>>
+     */
     private function analyzeNetworks(Collection $networks): array
     {
         $external = [];
         $local    = [];
 
-        $networks->each(function ($network) use (&$external, &$local) {
+        $networks->each(function ($network) use (&$external, &$local): void {
             if ($network->external) {
                 $external[] = $network->name;
             } else {
@@ -150,10 +171,10 @@ final class DockerComposeUsageExampleCommand extends Command
 
     private function hasExternalResources(DockerCompose $compose): bool
     {
-        $hasExternalVolumes  = $compose->volumes->contains(fn ($volume) => $volume->external);
-        $hasExternalNetworks = $compose->networks->contains(fn ($network) => $network->external);
-        $hasExternalConfigs  = $compose->configs->contains(fn ($config) => $config->external);
-        $hasExternalSecrets  = $compose->secrets->contains(fn ($secret) => $secret->external);
+        $hasExternalVolumes  = $compose->volumes->contains(fn ($volume): mixed => $volume->external);
+        $hasExternalNetworks = $compose->networks->contains(fn ($network): string | bool | null => $network->external);
+        $hasExternalConfigs  = $compose->configs->contains(fn ($config): string | bool | null => $config->external);
+        $hasExternalSecrets  = $compose->secrets->contains(fn ($secret): string | bool | null => $secret->external);
 
         return $hasExternalVolumes || $hasExternalNetworks || $hasExternalConfigs || $hasExternalSecrets;
     }
