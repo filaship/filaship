@@ -13,7 +13,7 @@ trait CommandCommons
 {
     protected string $currentDirectory;
 
-    public function getCurrentDirectory(): ?string
+    protected function getCurrentDirectory(): ?string
     {
         $currentDirectory = getcwd();
 
@@ -28,19 +28,17 @@ trait CommandCommons
         return $currentDirectory;
     }
 
-    public function runProcess(string $command): ProcessResult
+    protected function runProcess(string $command): ProcessResult
     {
-        $process = Process::forever()
+        return Process::forever()
             ->path($this->currentDirectory)
             ->run($command);
-
-        return $process;
     }
 
     /**
      * Get option with default value
      */
-    public function getOptionWithDefault(string $option, $default = null)
+    protected function getOptionWithDefault(string $option, $default = null)
     {
         return $this->option($option) ?? $default;
     }
@@ -48,7 +46,7 @@ trait CommandCommons
     /**
      * Get option as a flag (returns a string flag if option is true)
      */
-    public function getOptionFlag(string $option, string $flagValue): string
+    protected function getOptionFlag(string $option, string $flagValue): string
     {
         return $this->option($option) ? $flagValue : '';
     }
