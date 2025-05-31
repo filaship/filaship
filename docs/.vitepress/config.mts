@@ -14,6 +14,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/introduction/' },
+      { text: 'Contribuitors', link: '/contributors/' },
       { text: 'GitHub', link: 'https://github.com/filaship/filaship' },	
     ],
 
