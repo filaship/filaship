@@ -12,7 +12,7 @@ use function Laravel\Prompts\spin;
 
 use LaravelZero\Framework\Commands\Command;
 
-class UpCommand extends Command
+final class UpCommand extends Command
 {
     use CommandCommons;
 

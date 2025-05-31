@@ -6,7 +6,7 @@ namespace Filaship\DockerCompose;
 
 use Filaship\Contracts\DockerComposeComponentInterface;
 
-class Secret implements DockerComposeComponentInterface
+final class Secret implements DockerComposeComponentInterface
 {
     /**
      * @param array<string> $labels

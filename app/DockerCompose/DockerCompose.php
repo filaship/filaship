@@ -9,7 +9,7 @@ use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
-class DockerCompose
+final class DockerCompose
 {
     /**
      * @param Collection<string, Service> $services

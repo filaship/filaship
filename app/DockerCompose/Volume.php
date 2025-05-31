@@ -6,7 +6,7 @@ namespace Filaship\DockerCompose;
 
 use Filaship\Contracts\DockerComposeComponentInterface;
 
-class Volume implements DockerComposeComponentInterface
+final class Volume implements DockerComposeComponentInterface
 {
     /**
      * @param array<string> $driverOpts
@@ -27,7 +27,6 @@ class Volume implements DockerComposeComponentInterface
     public function toArray(): array
     {
         return array_filter([
-            'name'        => $this->name,
             'driver'      => $this->driver,
             'driver_opts' => $this->driverOpts,
             'labels'      => $this->labels,

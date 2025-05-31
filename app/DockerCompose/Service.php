@@ -7,7 +7,7 @@ namespace Filaship\DockerCompose;
 use Filaship\Contracts\DockerComposeComponentInterface;
 use Filaship\DockerCompose\Service\BuildConfig;
 
-class Service implements DockerComposeComponentInterface
+final class Service implements DockerComposeComponentInterface
 {
     /**
      * @param array<string> $ports
@@ -40,7 +40,6 @@ class Service implements DockerComposeComponentInterface
     public function toArray(): array
     {
         return array_filter([
-            'name'        => $this->name,
             'image'       => $this->image,
             'build'       => $this->build?->serialize(),
             'ports'       => $this->ports,

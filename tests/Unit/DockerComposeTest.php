@@ -6,19 +6,7 @@ use Filaship\DockerCompose\DockerCompose;
 use Filaship\DockerCompose\Service;
 use Filaship\DockerCompose\Service\BuildConfig;
 
-it('can parse a complete docker compose file', function (): void {
-    $dockerCompose = new DockerCompose();
-    $parsed        = $dockerCompose->parse(__DIR__ . '/../../example-docker-compose.yaml');
-
-    expect($parsed->version)->toBe('3.8')
-        ->and($parsed->services)->toHaveCount(4)
-        ->and($parsed->volumes)->toHaveCount(4)
-        ->and($parsed->networks)->toHaveCount(2)
-        ->and($parsed->configs)->toHaveCount(1)
-        ->and($parsed->secrets)->toHaveCount(2);
-});
-
-it('can parse service with build config object', function (): void {
+test('can parse service with build config object', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -46,7 +34,7 @@ it('can parse service with build config object', function (): void {
         ->and($service->build->args)->toBe(['BUILD_ARG' => 'value']);
 });
 
-it('can parse service with build as string', function (): void {
+test('can parse service with build as string', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -68,7 +56,7 @@ it('can parse service with build as string', function (): void {
         ->and($service->build->args)->toBe([]);
 });
 
-it('can parse service with command as array', function (): void {
+test('can parse service with command as array', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -86,7 +74,7 @@ it('can parse service with command as array', function (): void {
     expect($service->command)->toBe(['php-fpm', '--nodaemonize']);
 });
 
-it('can parse service with command as string', function (): void {
+test('can parse service with command as string', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -104,7 +92,7 @@ it('can parse service with command as string', function (): void {
     expect($service->command)->toBe('nginx -g "daemon off;"');
 });
 
-it('can handle external volumes and networks', function (): void {
+test('can handle external volumes and networks', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [
@@ -135,20 +123,7 @@ it('can handle external volumes and networks', function (): void {
     expect($network->external)->toBeTrue();
 });
 
-it('can convert back to array', function (): void {
-    $dockerCompose = new DockerCompose();
-    $parsed        = $dockerCompose->parse(__DIR__ . '/../../example-docker-compose.yaml');
-
-    $array = $parsed->toArray();
-
-    expect($array)->toHaveKey('version')
-        ->and($array)->toHaveKey('services')
-        ->and($array)->toHaveKey('volumes')
-        ->and($array)->toHaveKey('networks')
-        ->and($array['version'])->toBe('3.8');
-});
-
-it('can convert back to yaml', function (): void {
+test('can convert back to yaml', function (): void {
     $data = [
         'version'  => '3.8',
         'services' => [

@@ -6,7 +6,7 @@ namespace Filaship\DockerCompose;
 
 use Filaship\Contracts\DockerComposeComponentInterface;
 
-class Config implements DockerComposeComponentInterface
+final class Config implements DockerComposeComponentInterface
 {
     /**
      * @param array<string, mixed> $labels
