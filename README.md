@@ -1,34 +1,50 @@
 <p align="center">
-    <img title="Laravel Zero" height="100" src="https://raw.githubusercontent.com/laravel-zero/docs/master/images/logo/laravel-zero-readme.png" alt="Laravel Zero Logo" />
+    <img title="Filaship" height="100" src="/docs/public/images/logo.png" alt="Filaship Logo" />
 </p>
 
 <p align="center">
-  <a href="https://github.com/laravel-zero/framework/actions"><img src="https://github.com/laravel-zero/laravel-zero/actions/workflows/tests.yml/badge.svg" alt="Build Status" /></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/dt/laravel-zero/framework.svg" alt="Total Downloads" /></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/v/laravel-zero/framework.svg?label=stable" alt="Latest Stable Version" /></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/l/laravel-zero/framework.svg" alt="License" /></a>
+  <a href="https://github.com/filaship/filaship/actions"><img src="https://github.com/filaship/filaship/actions/workflows/tests.yml/badge.svg" alt="Build Status" /></a>
+  <a href="https://packagist.org/packages/filaship/filaship"><img src="https://img.shields.io/packagist/dt/filaship/filaship.svg" alt="Total Downloads" /></a>
+  <a href="https://packagist.org/packages/filaship/filaship"><img src="https://img.shields.io/packagist/v/filaship/filaship.svg?label=stable" alt="Latest Stable Version" /></a>
+  <a href="https://packagist.org/packages/filaship/filaship"><img src="https://img.shields.io/packagist/l/filaship/filaship.svg" alt="License" /></a>
 </p>
 
-Laravel Zero was created by [Nuno Maduro](https://github.com/nunomaduro) and [Owen Voke](https://github.com/owenvoke), and is a micro-framework that provides an elegant starting point for your console application. It is an **unofficial** and customized version of Laravel optimized for building command-line applications.
+# Filaship
 
-- Built on top of the [Laravel](https://laravel.com) components.
-- Optional installation of Laravel [Eloquent](https://laravel-zero.com/docs/database/), Laravel [Logging](https://laravel-zero.com/docs/logging/) and many others.
-- Supports interactive [menus](https://laravel-zero.com/docs/build-interactive-menus/) and [desktop notifications](https://laravel-zero.com/docs/send-desktop-notifications/) on Linux, Windows & MacOS.
-- Ships with a [Scheduler](https://laravel-zero.com/docs/task-scheduling/) and  a [Standalone Compiler](https://laravel-zero.com/docs/build-a-standalone-application/).
-- Integration with [Collision](https://github.com/nunomaduro/collision) - Beautiful error reporting
+A new, effortless way to use Docker in Laravel applications.
 
-------
+## About Filaship
+
+Filaship is a command-line tool designed to simplify Docker usage in Laravel applications. It provides a structured way to work with Docker Compose configurations, making it easier to deploy Laravel applications with Docker without dealing with complex configurations.
+
+## Features
+
+- 🚀 **Deploy with Confidence**: Replicate your Laravel environment anywhere. Eliminate the "works on my machine" problem forever.
+- 🌐 **Cross-Platform Ready**: Runs seamlessly on Mac, Windows, and Linux. Perfect for Laravel teams with diverse development setups.
+- ☁️ **Host Flexibility**: Deploy to any provider you trust. No vendor lock-in, complete freedom in your hosting choices.
+- ⚡ **Laravel-Optimized**: Built specifically for Laravel applications. Optimized configurations for Artisan, queues, and scheduled tasks.
+- 🔄 **Zero-Downtime Updates**: Push Laravel updates to production without interrupting your users' experience.
+- 🐳 **Docker Made Simple**: All the power of Docker with Laravel-focused simplicity. No complex configurations required.
+- 🛠️ **Effortless Server Management**: Transform complex Laravel server setup into simple, single-command operations.
+- 🔧 **CI/CD Integration**: Native GitHub Actions support for automated Laravel testing and deployment workflows.
+- 🔒 **SSL Auto-Management**: Automatic HTTPS setup for your Laravel apps with Let's Encrypt integration and renewal.
+
+## Installation
+
+You can install Filaship via Composer:
+
+```bash
+composer global require filaship/filaship
+```
 
 ## Documentation
 
-For full documentation, visit [laravel-zero.com](https://laravel-zero.com/).
+For full documentation, visit [filaship.dev](https://filaship.dev).
 
-## Support the development
-**Do you like this project? Support it by donating**
+## Contributing
 
-- PayPal: [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L)
-- Patreon: [Donate](https://www.patreon.com/nunomaduro)
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-Laravel Zero is an open-source software licensed under the MIT license.
+Filaship is open-source software licensed under the MIT license.

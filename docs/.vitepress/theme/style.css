@@ -80,6 +80,12 @@
   --vp-c-danger-soft: var(--vp-c-red-soft);
 }
 
+.dark {
+  --vp-c-bg: #0f172a !important;
+  --vp-c-bg-alt: #020617 !important;
+  --vp-c-bg-soft: #1e293b !important;
+}
+
 /**
  * Component: Button
  * -------------------------------------------------------------------------- */
