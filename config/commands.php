@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 return [
 
     /*
@@ -40,7 +42,7 @@ return [
     */
 
     'add' => [
-        //
+
     ],
 
     /*
@@ -63,6 +65,8 @@ return [
         Illuminate\Console\Scheduling\ScheduleFinishCommand::class,
         Illuminate\Foundation\Console\VendorPublishCommand::class,
         LaravelZero\Framework\Commands\StubPublishCommand::class,
+        Filaship\Commands\DockerCompose\ParseDockerComposeCommand::class,
+        Filaship\Commands\DockerCompose\DockerComposeUsageExampleCommand::class,
     ],
 
     /*
