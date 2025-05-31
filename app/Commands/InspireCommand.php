@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Filaship\Commands;
 
 use Illuminate\Console\Scheduling\Schedule;

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Filaship\Commands;
 
-use Filaship\DockerCompose\DockerCompose;
 use LaravelZero\Framework\Commands\Command;
 
 class UpCommand extends Command
