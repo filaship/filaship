@@ -1,5 +1,5 @@
 <?php
 
 return [
-    App\Providers\AppServiceProvider::class,
+    Filaship\Providers\FilashipServiceProvider::class,
 ];

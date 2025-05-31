@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Providers;
+namespace Filaship\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class FilashipServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.

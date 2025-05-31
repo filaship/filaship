@@ -16,7 +16,8 @@
         "source": "https://github.com/filaship/filaship"
     },
     "require": {
-        "php": "^8.2.0"
+        "php": "^8.2.0",
+        "symfony/yaml": "^7.3"
     },
     "require-dev": {
         "laravel-zero/framework": "^11.36.1",
@@ -26,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
+            "Filaship\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
