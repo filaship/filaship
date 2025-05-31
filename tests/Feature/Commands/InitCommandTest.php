@@ -20,14 +20,14 @@ afterEach(function () {
     }
 });
 
-it('has correct signature and description', function () {
+test('has correct signature and description', function () {
     $command = app(InitCommand::class);
 
     expect($command->getName())->toBe('init')
         ->and($command->getDescription())->toBe('Initialize a new Laravel Docker Compose project with interactive setup');
 });
 
-it('creates docker-compose file when none exists', function () {
+test('creates docker-compose file when none exists', function () {
     $this->artisan('init')
         ->expectsQuestion('What is your project name?', 'test-project')
         ->expectsQuestion('Which categories of services would you like to add?', [])
@@ -41,7 +41,7 @@ it('creates docker-compose file when none exists', function () {
         ->and($content)->toContain('test-project:');
 });
 
-it('shows existing file options when docker-compose.yml exists', function () {
+test('shows existing file options when docker-compose.yml exists', function () {
     // Create a dummy docker-compose.yml file
     File::put('docker-compose.yml', "version: '3.8'\nservices:\n  existing:\n    image: nginx");
 
@@ -50,7 +50,7 @@ it('shows existing file options when docker-compose.yml exists', function () {
         ->assertSuccessful();
 });
 
-it('can add services to existing docker-compose file', function () {
+test('can add services to existing docker-compose file', function () {
     // Create a basic docker-compose.yml file
     $existingContent = "version: '3.8'\nservices:\n  existing:\n    image: nginx\nnetworks:\n  test:\n    driver: bridge";
     File::put('docker-compose.yml', $existingContent);
@@ -61,7 +61,7 @@ it('can add services to existing docker-compose file', function () {
         ->assertSuccessful();
 });
 
-it('can recreate existing docker-compose file', function () {
+test('can recreate existing docker-compose file', function () {
     // Create a basic docker-compose.yml file
     File::put('docker-compose.yml', "version: '3.8'\nservices:\n  old:\n    image: old-image");
 
@@ -76,7 +76,7 @@ it('can recreate existing docker-compose file', function () {
         ->and($content)->not->toContain('old:');
 });
 
-it('creates network with project name', function () {
+test('creates network with project name', function () {
     $this->artisan('init')
         ->expectsQuestion('What is your project name?', 'my-laravel-app')
         ->expectsQuestion('Which categories of services would you like to add?', [])
@@ -87,7 +87,7 @@ it('creates network with project name', function () {
         ->and($content)->toContain('driver: bridge');
 });
 
-it('validates project name format', function () {
+test('validates project name format', function () {
     $this->artisan('init')
         ->expectsQuestion('What is your project name?', 'x') // Too short
         ->expectsQuestion('What is your project name?', 'Invalid-NAME') // Invalid characters
@@ -96,7 +96,7 @@ it('validates project name format', function () {
         ->assertSuccessful();
 });
 
-it('can select database service', function () {
+test('can select database service', function () {
     // Mock ServiceRegistry to return database services
     $this->mock(ServiceRegistry::class, function ($mock) {
         $mock->shouldReceive('getCategories')->andReturn(['database' => 'Database Services']);
@@ -124,7 +124,7 @@ it('can select database service', function () {
     expect($content)->toContain('mysql:');
 });
 
-it('can select multiple cache services', function () {
+test('can select multiple cache services', function () {
     // Mock ServiceRegistry for cache services
     $this->mock(ServiceRegistry::class, function ($mock) {
         $mock->shouldReceive('getCategories')->andReturn(['cache' => 'Cache Services']);
@@ -163,7 +163,7 @@ it('can select multiple cache services', function () {
         ->and($content)->toContain('memcached:');
 });
 
-it('handles no database selection', function () {
+test('handles no database selection', function () {
     // Mock ServiceRegistry for database services
     $this->mock(ServiceRegistry::class, function ($mock) {
         $mock->shouldReceive('getCategories')->andReturn(['database' => 'Database Services']);
@@ -183,7 +183,7 @@ it('handles no database selection', function () {
         ->and($content)->not->toContain('postgres:');
 });
 
-it('creates volumes for services that require them', function () {
+test('creates volumes for services that require them', function () {
     // Mock ServiceRegistry
     $this->mock(ServiceRegistry::class, function ($mock) {
         $mock->shouldReceive('getCategories')->andReturn(['database' => 'Database Services']);
@@ -212,7 +212,7 @@ it('creates volumes for services that require them', function () {
         ->and($content)->toContain('mysql_data');
 });
 
-it('configures services with project network', function () {
+test('configures services with project network', function () {
     // Mock ServiceRegistry
     $this->mock(ServiceRegistry::class, function ($mock) {
         $mock->shouldReceive('getCategories')->andReturn(['database' => 'Database Services']);

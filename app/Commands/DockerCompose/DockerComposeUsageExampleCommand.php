@@ -9,7 +9,6 @@ use Filaship\DockerCompose\Network;
 use Filaship\DockerCompose\Service;
 use Filaship\DockerCompose\Service\BuildConfig;
 use Filaship\DockerCompose\Volume;
-use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use LaravelZero\Framework\Commands\Command;
 
