@@ -16,3 +16,7 @@ _ide_helper_models.php
 /.fleet
 /.vscode
 docs/bun.lockb
+
+docker-compose*.yml
+docker-compose.yml
+docker-compose.yml
