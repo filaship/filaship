@@ -26,6 +26,7 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/introduction/' },
           { text: 'Installation', link: '/introduction/installation' },
+          { text: 'Contribuition Guide', link: '/introduction/contribution-guide' },
         ]
       },
       {
