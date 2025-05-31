@@ -12,7 +12,7 @@ class Service implements DockerComposeComponentInterface
     public function __construct(
         public string $name,
         public ?string $image = null,
-        public BuildConfig | string | null $build = null,
+        public ?BuildConfig $build = null,
         public array $ports = [],
         public array $volumes = [],
         public array $environment = [],
@@ -31,7 +31,7 @@ class Service implements DockerComposeComponentInterface
         return array_filter([
             'name'        => $this->name,
             'image'       => $this->image,
-            'build'       => $this->getBuildAsArray(),
+            'build'       => $this->build?->serialize(),
             'ports'       => $this->ports,
             'volumes'     => $this->volumes,
             'environment' => $this->environment,
@@ -50,7 +50,7 @@ class Service implements DockerComposeComponentInterface
         return new self(
             name: $name,
             image: $data['image'] ?? null,
-            build: self::parseBuild($data['build'] ?? null),
+            build: BuildConfig::parse($data['build'] ?? null),
             ports: $data['ports'] ?? [],
             volumes: $data['volumes'] ?? [],
             environment: $data['environment'] ?? [],
@@ -65,23 +65,5 @@ class Service implements DockerComposeComponentInterface
                 'depends_on', 'networks', 'labels', 'command', 'restart', 'healthcheck',
             ]))
         );
-    }
-
-    private static function parseBuild(mixed $buildData): BuildConfig | string | null
-    {
-        return match (true) {
-            is_string($buildData) => $buildData,
-            is_array($buildData)  => BuildConfig::fromArray($buildData),
-            default               => null,
-        };
-    }
-
-    private function getBuildAsArray(): array | string | null
-    {
-        return match (true) {
-            $this->build instanceof BuildConfig => $this->build->toArray(),
-            is_string($this->build)             => $this->build,
-            default                             => null,
-        };
     }
 }
