@@ -42,7 +42,7 @@ return [
     */
 
     'add' => [
-        Filaship\Commands\ParseDockerComposeCommand::class,
+
     ],
 
     /*
@@ -65,7 +65,8 @@ return [
         Illuminate\Console\Scheduling\ScheduleFinishCommand::class,
         Illuminate\Foundation\Console\VendorPublishCommand::class,
         LaravelZero\Framework\Commands\StubPublishCommand::class,
-        Filaship\Commands\ParseDockerComposeCommand::class,
+        Filaship\Commands\DockerCompose\ParseDockerComposeCommand::class,
+        Filaship\Commands\DockerCompose\DockerComposeUsageExampleCommand::class,
     ],
 
     /*

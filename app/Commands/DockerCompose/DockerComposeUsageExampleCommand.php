@@ -2,19 +2,54 @@
 
 declare(strict_types = 1);
 
-namespace Filaship\Examples;
+namespace Filaship\Commands\DockerCompose;
 
 use Filaship\DockerCompose\DockerCompose;
 use Filaship\DockerCompose\Service;
 use Filaship\DockerCompose\Service\BuildConfig;
+use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
 /**
  * Example class demonstrating how to use the DockerCompose parser
  */
-class DockerComposeUsageExample
+class DockerComposeUsageExampleCommand extends Command
 {
-    public function parseAndAnalyze(string $filePath): array
+    protected $signature = 'docker-compose:example {file? : Path to docker-compose.yaml file}';
+
+    protected $description = 'Demonstrate usage of DockerCompose parser with example commands';
+
+    public function handle(): int
+    {
+        $filePath = $this->argument('file') ?? 'docker-compose.yaml';
+
+        if (! file_exists($filePath)) {
+            $this->error("File not found: {$filePath}");
+
+            return self::FAILURE;
+        }
+
+        try {
+            $analysis = $this->parseAndAnalyze($filePath);
+            $this->info("✅ File parsed successfully!");
+            $this->line("Summary:");
+            $this->line(json_encode($analysis['summary'], JSON_PRETTY_PRINT));
+            $this->line("Services Analysis:");
+            $this->line(json_encode($analysis['services_analysis'], JSON_PRETTY_PRINT));
+            $this->line("Volumes Analysis:");
+            $this->line(json_encode($analysis['volumes_analysis'], JSON_PRETTY_PRINT));
+            $this->line("Networks Analysis:");
+            $this->line(json_encode($analysis['networks_analysis'], JSON_PRETTY_PRINT));
+        } catch (\Exception $e) {
+            $this->error("Error parsing file: " . $e->getMessage());
+
+            return self::FAILURE;
+        }
+
+        return self::SUCCESS;
+    }
+
+    protected function parseAndAnalyze(string $filePath): array
     {
         $dockerCompose = new DockerCompose();
         $parsed        = $dockerCompose->parse($filePath);

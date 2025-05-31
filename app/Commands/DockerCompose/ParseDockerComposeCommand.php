@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Filaship\Commands;
+namespace Filaship\Commands\DockerCompose;
 
 use Filaship\DockerCompose\DockerCompose;
 use Illuminate\Console\Command;
