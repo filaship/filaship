@@ -101,15 +101,15 @@ test('can select database service', function () {
     $this->mock(ServiceRegistry::class, function ($mock) {
         $mock->shouldReceive('getCategories')->andReturn(['database' => 'Database Services']);
         $mock->shouldReceive('getServicesByCategory')->with('database')->andReturn([
-            (object) ['name' => 'mysql', 'description' => 'MySQL 8.0 Database Server']
+            (object) ['name' => 'mysql', 'description' => 'MySQL 8.0 Database Server'],
         ]);
         $mock->shouldReceive('getService')->with('mysql')->andReturn(
             (object) [
-                'name' => 'mysql',
-                'description' => 'MySQL 8.0 Database Server',
-                'createService' => fn() => (object) ['image' => 'mysql:8.0', 'networks' => []],
-                'getRequiredVolumes' => fn() => [(object) ['name' => 'mysql_data']],
-                'getCategory' => fn() => 'database'
+                'name'               => 'mysql',
+                'description'        => 'MySQL 8.0 Database Server',
+                'createService'      => fn () => (object) ['image' => 'mysql:8.0', 'networks' => []],
+                'getRequiredVolumes' => fn () => [(object) ['name' => 'mysql_data']],
+                'getCategory'        => fn () => 'database',
             ]
         );
     });
@@ -130,24 +130,24 @@ test('can select multiple cache services', function () {
         $mock->shouldReceive('getCategories')->andReturn(['cache' => 'Cache Services']);
         $mock->shouldReceive('getServicesByCategory')->with('cache')->andReturn([
             (object) ['name' => 'redis', 'description' => 'Redis Cache'],
-            (object) ['name' => 'memcached', 'description' => 'Memcached Cache']
+            (object) ['name' => 'memcached', 'description' => 'Memcached Cache'],
         ]);
         $mock->shouldReceive('getService')->with('redis')->andReturn(
             (object) [
-                'name' => 'redis',
-                'description' => 'Redis Cache',
-                'createService' => fn() => (object) ['image' => 'redis:7', 'networks' => []],
-                'getRequiredVolumes' => fn() => [],
-                'getCategory' => fn() => 'cache'
+                'name'               => 'redis',
+                'description'        => 'Redis Cache',
+                'createService'      => fn () => (object) ['image' => 'redis:7', 'networks' => []],
+                'getRequiredVolumes' => fn () => [],
+                'getCategory'        => fn () => 'cache',
             ]
         );
         $mock->shouldReceive('getService')->with('memcached')->andReturn(
             (object) [
-                'name' => 'memcached',
-                'description' => 'Memcached Cache',
-                'createService' => fn() => (object) ['image' => 'memcached', 'networks' => []],
-                'getRequiredVolumes' => fn() => [],
-                'getCategory' => fn() => 'cache'
+                'name'               => 'memcached',
+                'description'        => 'Memcached Cache',
+                'createService'      => fn () => (object) ['image' => 'memcached', 'networks' => []],
+                'getRequiredVolumes' => fn () => [],
+                'getCategory'        => fn () => 'cache',
             ]
         );
     });
@@ -168,7 +168,7 @@ test('handles no database selection', function () {
     $this->mock(ServiceRegistry::class, function ($mock) {
         $mock->shouldReceive('getCategories')->andReturn(['database' => 'Database Services']);
         $mock->shouldReceive('getServicesByCategory')->with('database')->andReturn([
-            (object) ['name' => 'mysql', 'description' => 'MySQL 8.0 Database Server']
+            (object) ['name' => 'mysql', 'description' => 'MySQL 8.0 Database Server'],
         ]);
     });
 
@@ -188,15 +188,15 @@ test('creates volumes for services that require them', function () {
     $this->mock(ServiceRegistry::class, function ($mock) {
         $mock->shouldReceive('getCategories')->andReturn(['database' => 'Database Services']);
         $mock->shouldReceive('getServicesByCategory')->with('database')->andReturn([
-            (object) ['name' => 'mysql', 'description' => 'MySQL 8.0 Database Server']
+            (object) ['name' => 'mysql', 'description' => 'MySQL 8.0 Database Server'],
         ]);
         $mock->shouldReceive('getService')->with('mysql')->andReturn(
             (object) [
-                'name' => 'mysql',
-                'description' => 'MySQL 8.0 Database Server',
-                'createService' => fn() => (object) ['image' => 'mysql:8.0', 'networks' => []],
-                'getRequiredVolumes' => fn() => [(object) ['name' => 'mysql_data']],
-                'getCategory' => fn() => 'database'
+                'name'               => 'mysql',
+                'description'        => 'MySQL 8.0 Database Server',
+                'createService'      => fn () => (object) ['image' => 'mysql:8.0', 'networks' => []],
+                'getRequiredVolumes' => fn () => [(object) ['name' => 'mysql_data']],
+                'getCategory'        => fn () => 'database',
             ]
         );
     });
@@ -217,15 +217,15 @@ test('configures services with project network', function () {
     $this->mock(ServiceRegistry::class, function ($mock) {
         $mock->shouldReceive('getCategories')->andReturn(['database' => 'Database Services']);
         $mock->shouldReceive('getServicesByCategory')->with('database')->andReturn([
-            (object) ['name' => 'mysql', 'description' => 'MySQL 8.0 Database Server']
+            (object) ['name' => 'mysql', 'description' => 'MySQL 8.0 Database Server'],
         ]);
         $mock->shouldReceive('getService')->with('mysql')->andReturn(
             (object) [
-                'name' => 'mysql',
-                'description' => 'MySQL 8.0 Database Server',
-                'createService' => fn() => (object) ['image' => 'mysql:8.0', 'networks' => []],
-                'getRequiredVolumes' => fn() => [(object) ['name' => 'mysql_data']],
-                'getCategory' => fn() => 'database'
+                'name'               => 'mysql',
+                'description'        => 'MySQL 8.0 Database Server',
+                'createService'      => fn () => (object) ['image' => 'mysql:8.0', 'networks' => []],
+                'getRequiredVolumes' => fn () => [(object) ['name' => 'mysql_data']],
+                'getCategory'        => fn () => 'database',
             ]
         );
     });
