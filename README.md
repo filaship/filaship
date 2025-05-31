@@ -43,7 +43,7 @@ For full documentation, visit [filaship.dev](https://filaship.dev).
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please read our [contributing guidelines](https://filaship.dev/introduction/contributing).
 
 ## License
 
