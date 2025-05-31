@@ -6,7 +6,7 @@ namespace Filaship\DockerCompose;
 
 use Filaship\Contracts\DockerComposeComponentInterface;
 
-class Config implements DockerComposeComponentInterface
+final class Config implements DockerComposeComponentInterface
 {
     public function __construct(
         public string $name,

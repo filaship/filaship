@@ -9,7 +9,7 @@ use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
-class DockerCompose
+final class DockerCompose
 {
     public function __construct(
         public ?string $version = null,

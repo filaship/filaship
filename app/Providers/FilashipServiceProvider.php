@@ -7,7 +7,7 @@ namespace Filaship\Providers;
 use Filaship\DockerCompose\DockerCompose;
 use Illuminate\Support\ServiceProvider;
 
-class FilashipServiceProvider extends ServiceProvider
+final class FilashipServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Filaship\DockerCompose\Service;
 
-class BuildConfig
+final class BuildConfig
 {
     public function __construct(
         public ?string $context = null,

@@ -5,13 +5,15 @@ declare(strict_types = 1);
 namespace Filaship\Commands\DockerCompose;
 
 use Filaship\DockerCompose\DockerCompose;
-use Illuminate\Console\Command;
 
 use function Laravel\Prompts\error;
+
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\note;
 
-class ParseDockerComposeCommand extends Command
+use LaravelZero\Framework\Commands\Command;
+
+final class ParseDockerComposeCommand extends Command
 {
     protected $signature = 'docker-compose:parse {file : Path to docker-compose.yaml file}';
 
@@ -93,7 +95,6 @@ class ParseDockerComposeCommand extends Command
 
             if ($this->option('verbose')) {
                 note("📄 Complete structure:");
-                dump($parsed->toArray());
             }
 
             return 0;
