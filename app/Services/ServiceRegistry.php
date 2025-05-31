@@ -34,13 +34,13 @@ class ServiceRegistry
     private function initializeCategories(): void
     {
         $this->categories = [
-            'database'   => 'Databases (MySQL, PostgreSQL, MongoDB, etc.)',
-            'cache'      => 'Cache Systems (Redis, Memcached)',
-            'monitoring' => 'Monitoring (Grafana)',
-            'mail'       => 'Email Testing (MailHog)',
-            'storage'    => 'Storage Solutions (MinIO)',
-            'search'     => 'Search Engines (Elasticsearch)',
-            'tool'       => 'Development Tools (Adminer)',
+            'database'   => 'Databases',
+            'cache'      => 'Cache Systems',
+            'monitoring' => 'Monitoring',
+            'mail'       => 'Email Testing',
+            'storage'    => 'Storage Solutions',
+            'search'     => 'Search Engines',
+            'tool'       => 'Development Tools',
         ];
     }
 
