@@ -6,11 +6,11 @@ use Illuminate\Contracts\Process\ProcessResult;
 use Illuminate\Process\PendingProcess;
 use Illuminate\Support\Facades\Process;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Process::preventStrayProcesses();
 });
 
-test('runs docker compose up successfully with default parameters', function () {
+test('runs docker compose up successfully with default parameters', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => Process::result(
             output: 'Container started successfully',
@@ -23,7 +23,7 @@ test('runs docker compose up successfully with default parameters', function () 
     Process::assertRan('docker compose -f docker-compose.yml up ');
 });
 
-test('runs docker compose up in detached mode when -d flag is provided', function () {
+test('runs docker compose up in detached mode when -d flag is provided', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up -d' => Process::result(
             output: 'Container started in detached mode',
@@ -36,7 +36,7 @@ test('runs docker compose up in detached mode when -d flag is provided', functio
     Process::assertRan('docker compose -f docker-compose.yml up -d');
 });
 
-test('runs docker compose up with custom compose file when -f flag is provided', function () {
+test('runs docker compose up with custom compose file when -f flag is provided', function (): void {
     Process::fake([
         'docker compose -f custom-compose.yml up ' => Process::result(
             output: 'Container started with custom file',
@@ -49,7 +49,7 @@ test('runs docker compose up with custom compose file when -f flag is provided',
     Process::assertRan('docker compose -f custom-compose.yml up ');
 });
 
-test('runs docker compose up with both detached mode and custom file', function () {
+test('runs docker compose up with both detached mode and custom file', function (): void {
     Process::fake([
         'docker compose -f production.yml up -d' => Process::result(
             output: 'Production containers started in detached mode',
@@ -65,7 +65,7 @@ test('runs docker compose up with both detached mode and custom file', function 
     Process::assertRan('docker compose -f production.yml up -d');
 });
 
-test('handles docker compose up failure gracefully', function () {
+test('handles docker compose up failure gracefully', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => Process::result(
             output: '',
@@ -80,7 +80,7 @@ test('handles docker compose up failure gracefully', function () {
     Process::assertRan('docker compose -f docker-compose.yml up ');
 });
 
-test('handles docker compose up with network errors', function () {
+test('handles docker compose up with network errors', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => Process::result(
             output: '',
@@ -95,7 +95,7 @@ test('handles docker compose up with network errors', function () {
     Process::assertRan('docker compose -f docker-compose.yml up ');
 });
 
-test('handles docker compose up with missing image errors', function () {
+test('handles docker compose up with missing image errors', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => Process::result(
             output: '',
@@ -110,7 +110,7 @@ test('handles docker compose up with missing image errors', function () {
     Process::assertRan('docker compose -f docker-compose.yml up ');
 });
 
-test('validates process command structure with closure assertion', function () {
+test('validates process command structure with closure assertion', function (): void {
     Process::fake([
         '*' => Process::result(output: 'Success'),
     ]);
@@ -118,14 +118,14 @@ test('validates process command structure with closure assertion', function () {
     $this->artisan('up', ['--file' => 'test.yml', '--detached' => true])
         ->assertSuccessful();
 
-    Process::assertRan(function (PendingProcess $process, ProcessResult $result) {
+    Process::assertRan(function (PendingProcess $process, ProcessResult $result): bool {
         return str_contains($process->command, 'docker compose') &&
                str_contains($process->command, '-f test.yml') &&
                str_contains($process->command, 'up -d');
     });
 });
 
-test('shows spinning message while starting containers', function () {
+test('shows spinning message while starting containers', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => Process::describe()
             ->output('Creating network...')
@@ -140,7 +140,7 @@ test('shows spinning message while starting containers', function () {
         ->assertSuccessful();
 });
 
-test('handles docker compose up with service dependency errors', function () {
+test('handles docker compose up with service dependency errors', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => Process::result(
             output: '',
@@ -153,7 +153,7 @@ test('handles docker compose up with service dependency errors', function () {
         ->assertFailed();
 });
 
-test('handles docker compose up with port binding conflicts', function () {
+test('handles docker compose up with port binding conflicts', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => Process::result(
             output: '',
@@ -166,7 +166,7 @@ test('handles docker compose up with port binding conflicts', function () {
         ->assertFailed();
 });
 
-test('runs command with short flags (-d and -f)', function () {
+test('runs command with short flags (-d and -f)', function (): void {
     Process::fake([
         'docker compose -f staging.yml up -d' => Process::result(
             output: 'Staging containers started',
@@ -179,7 +179,7 @@ test('runs command with short flags (-d and -f)', function () {
     Process::assertRan('docker compose -f staging.yml up -d');
 });
 
-test('ensures no stray processes are executed during tests', function () {
+test('ensures no stray processes are executed during tests', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => 'Success',
     ]);
@@ -190,7 +190,7 @@ test('ensures no stray processes are executed during tests', function () {
     Process::assertRanTimes('docker compose -f docker-compose.yml up ', 1);
 });
 
-test('handles complex docker compose output with multiple services', function () {
+test('handles complex docker compose output with multiple services', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => Process::result(
             output: "Creating network \"filaship_default\" with the default driver\n" .
@@ -204,13 +204,13 @@ test('handles complex docker compose output with multiple services', function ()
     $this->artisan('up')
         ->assertSuccessful();
 
-    Process::assertRan(function (PendingProcess $process, ProcessResult $result) {
+    Process::assertRan(function (PendingProcess $process, ProcessResult $result): bool {
         return $process->command === 'docker compose -f docker-compose.yml up ' &&
                $result->successful();
     });
 });
 
-test('handles docker daemon not running error', function () {
+test('handles docker daemon not running error', function (): void {
     Process::fake([
         'docker compose -f docker-compose.yml up ' => Process::result(
             output: '',
@@ -223,7 +223,7 @@ test('handles docker daemon not running error', function () {
         ->assertFailed();
 });
 
-test('validates command signature and options', function () {
+test('validates command signature and options', function (): void {
     // Test that the command accepts the expected options
     $command = $this->app->make(Filaship\Commands\UpCommand::class);
 

@@ -8,6 +8,10 @@ use Filaship\Contracts\DockerComposeComponentInterface;
 
 class Config implements DockerComposeComponentInterface
 {
+    /**
+     * @param array<string, mixed> $labels
+     * @param array<string, mixed> $extra
+     */
     public function __construct(
         public string $name,
         public ?string $file = null,
@@ -25,7 +29,7 @@ class Config implements DockerComposeComponentInterface
             'external' => $this->external,
             'labels'   => $this->labels,
             'extra'    => $this->extra,
-        ], fn ($value) => $value !== null && $value !== []);
+        ], fn ($value): bool => $value !== null && $value !== []);
     }
 
     public static function fromArray(string $name, array $data): self

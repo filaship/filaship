@@ -11,6 +11,14 @@ use Symfony\Component\Yaml\Yaml;
 
 class DockerCompose
 {
+    /**
+     * @param Collection<string, Service> $services
+     * @param Collection<string, Network> $networks
+     * @param Collection<string, Volume> $volumes
+     * @param Collection<string, Config> $configs
+     * @param Collection<string, Secret> $secrets
+     * @param array<string, mixed> $extra
+     */
     public function __construct(
         public ?string $version = null,
         public Collection $services = new Collection(),
@@ -32,7 +40,7 @@ class DockerCompose
             $content = file_get_contents($filePath);
             $data    = Yaml::parse($content);
         } catch (\Exception $e) {
-            throw new RuntimeException("Error parsing YAML file: " . $e->getMessage());
+            throw new RuntimeException("Error parsing YAML file: " . $e->getMessage(), $e->getCode(), $e);
         }
 
         if (! is_array($data)) {
@@ -42,6 +50,9 @@ class DockerCompose
         return $this->parseFromArray($data);
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function parseFromArray(array $data): self
     {
         $services = new Collection();
@@ -98,17 +109,20 @@ class DockerCompose
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return array_filter([
             'version'  => $this->version,
-            'services' => $this->services->map(fn ($service) => $service->toArray())->toArray(),
-            'networks' => $this->networks->map(fn ($network) => $network->toArray())->toArray(),
-            'volumes'  => $this->volumes->map(fn ($volume) => $volume->toArray())->toArray(),
-            'configs'  => $this->configs->map(fn ($config) => $config->toArray())->toArray(),
-            'secrets'  => $this->secrets->map(fn ($secret) => $secret->toArray())->toArray(),
+            'services' => $this->services->map(fn ($service): array => $service->toArray())->toArray(),
+            'networks' => $this->networks->map(fn ($network): array => $network->toArray())->toArray(),
+            'volumes'  => $this->volumes->map(fn ($volume): array => $volume->toArray())->toArray(),
+            'configs'  => $this->configs->map(fn ($config): array => $config->toArray())->toArray(),
+            'secrets'  => $this->secrets->map(fn ($secret): array => $secret->toArray())->toArray(),
             'extra'    => $this->extra,
-        ], fn ($value) => $value !== null && $value !== []);
+        ], fn ($value): bool => $value !== null && $value !== []);
     }
 
     public function toYaml(): string
@@ -146,16 +160,25 @@ class DockerCompose
         return $this->services->has($name);
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     public function getServiceNames(): array
     {
         return $this->services->keys()->toArray();
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     public function getNetworkNames(): array
     {
         return $this->networks->keys()->toArray();
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     public function getVolumeNames(): array
     {
         return $this->volumes->keys()->toArray();

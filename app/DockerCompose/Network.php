@@ -8,6 +8,12 @@ use Filaship\Contracts\DockerComposeComponentInterface;
 
 class Network implements DockerComposeComponentInterface
 {
+    /**
+     * @param array<string> $driverOpts
+     * @param array<string> $labels
+     * @param array<string> $ipam
+     * @param array<string> $extra
+     */
     public function __construct(
         public string $name,
         public ?string $driver = null,
@@ -29,7 +35,7 @@ class Network implements DockerComposeComponentInterface
             'external'    => $this->external,
             'ipam'        => $this->ipam,
             'extra'       => $this->extra,
-        ], fn ($value) => $value !== null && $value !== []);
+        ], fn ($value): bool => $value !== null && $value !== []);
     }
 
     public static function fromArray(string $name, array $data): self
