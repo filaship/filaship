@@ -2,17 +2,7 @@
 
 ## Overview
 
-The Filaship Docker Compose Parser is a comprehensive PHP designed for programmatic manipulation of Docker Compose YAML files. It provides full bidirectional conversion between YAML and PHP objects with complete type safety and validation.
-
-### Key Capabilities
-
--   **Complete Docker Compose v3.8+ Support**: All services, volumes, networks, configs, and secrets
--   **Type-Safe Object Model**: Strong typing with PHP 8.2+ features
--   **Bidirectional Serialization**: Parse YAML → Objects → YAML with data integrity
--   **Validation & Error Handling**: Comprehensive validation with detailed error messages
--   **Extensible Architecture**: Interface-based design for custom components
--   **CLI Integration**: Ready-to-use commands for file manipulation
--   **Production Ready**: Tested, documented, and performance optimized
+The Docker Compose Parser is a comprehensive PHP designed for programmatic manipulation of Docker Compose YAML files. It provides full bidirectional conversion between YAML and PHP objects with complete type safety and validation.
 
 ## Architecture & Design Patterns
 
@@ -228,7 +218,7 @@ class Volume implements DockerComposeComponentInterface
     public readonly array $extra;
 }
 
-// Example: Database volume with specific driver
+// Example: Database volume with a specific driver
 $dbVolume = new Volume(
     name: 'postgres_data',
     driver: 'local',
