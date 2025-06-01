@@ -48,10 +48,7 @@ final class InitCommand extends Command
     {
         $this->getCurrentDirectory();
 
-        // Initialize ServiceRegistry
         $this->serviceRegistry = new ServiceRegistry();
-
-        // Initialize collections
         $this->services = new Collection();
         $this->volumes  = new Collection();
         $this->networks = new Collection();
@@ -84,7 +81,6 @@ final class InitCommand extends Command
 
         $this->askForProjectInfo();
         $this->networks = $this->createBaseNetworks();
-        $this->askForApplicationService();
         $this->askForServices();
 
         $this->createDockerComposeFile();
@@ -110,7 +106,6 @@ final class InitCommand extends Command
             $this->volumes  = $existingCompose->volumes;
             $this->networks = $existingCompose->networks;
 
-            // Initialize ServiceRegistry
             $this->serviceRegistry = new ServiceRegistry();
 
             $this->askForServices();
@@ -141,7 +136,6 @@ final class InitCommand extends Command
             }
         );
 
-        // Store project name for later use
         $this->projectName = $projectName;
     }
 
@@ -155,21 +149,10 @@ final class InitCommand extends Command
         ]);
     }
 
-    private function askForApplicationService(): void
-    {
-        // TODO: Add Laravel Service implementation
-
-        note('💡 Laravel service implementation coming soon...');
-    }
-
-    /**
-     * Ask user to select and configure services using the service registry
-     */
     private function askForServices(): void
     {
         note('🛠️ Laravel Infrastructure Services');
 
-        // Get available service categories from ServiceRegistry
         $categories = $this->serviceRegistry->getCategories();
 
         $selectedCategories = multiselect(
@@ -244,7 +227,6 @@ final class InitCommand extends Command
 
         info("➕ Adding {$serviceTemplate->getDescription()}...");
 
-        // Prepare service
         $service = $serviceTemplate->createService();
 
         $service->networks = [$this->projectName];

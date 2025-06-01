@@ -212,7 +212,6 @@ final class DockerComposeUsageExampleCommand extends Command
         $dockerCompose = new DockerCompose();
         $parsed        = $dockerCompose->parse($filePath);
 
-        // Example: Add a new service
         $newService = new Service(
             name: 'monitoring',
             image: 'prom/prometheus:latest',

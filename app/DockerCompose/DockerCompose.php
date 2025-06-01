@@ -61,35 +61,30 @@ final class DockerCompose
         $configs  = new Collection();
         $secrets  = new Collection();
 
-        // Parse services
         if (isset($data['services']) && is_array($data['services'])) {
             foreach ($data['services'] as $name => $serviceData) {
                 $services->put($name, Service::fromArray($name, $serviceData));
             }
         }
 
-        // Parse networks
         if (isset($data['networks']) && is_array($data['networks'])) {
             foreach ($data['networks'] as $name => $networkData) {
                 $networks->put($name, Network::fromArray($name, $networkData ?? []));
             }
         }
 
-        // Parse volumes
         if (isset($data['volumes']) && is_array($data['volumes'])) {
             foreach ($data['volumes'] as $name => $volumeData) {
                 $volumes->put($name, Volume::fromArray($name, $volumeData ?? []));
             }
         }
 
-        // Parse configs
         if (isset($data['configs']) && is_array($data['configs'])) {
             foreach ($data['configs'] as $name => $configData) {
                 $configs->put($name, Config::fromArray($name, $configData ?? []));
             }
         }
 
-        // Parse secrets
         if (isset($data['secrets']) && is_array($data['secrets'])) {
             foreach ($data['secrets'] as $name => $secretData) {
                 $secrets->put($name, Secret::fromArray($name, $secretData ?? []));
