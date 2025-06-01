@@ -1,0 +1,58 @@
+name: Publish the released PHAR
+
+on:
+  release:
+    types: [ created ]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+
+    name: Release PHAR
+
+    steps:
+      - name: Extract the tag version
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            GITHUB_REF=${{ github.event.inputs.tag }}
+          fi
+          echo "tag=${GITHUB_REF##*v}" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: dom, curl, libxml, mbstring, zip
+          ini-values: error_reporting=E_ALL
+          tools: composer:v2
+          coverage: none
+
+      - name: Install the dependencies
+        run: composer install --prefer-dist --optimize-autoloader --no-interaction --no-progress --no-suggest --no-scripts --ansi -v --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-posix --ignore-platform-req=ext-sockets
+
+      - name: Update the dependencies # windows does not support ext-pcntl、ext-posix、ext-sockets
+        run: composer update --prefer-dist --optimize-autoloader --no-interaction --no-progress --no-suggest --no-scripts --ansi -v --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-posix --ignore-platform-req=ext-sockets
+
+      - name: Create the PHAR file.
+        run: php filaship app:build filaship.phar --build-version=${{ steps.tag.outputs.tag }} -v
+
+      - name: Upload the PHAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: filaship.phar
+          path: builds/filaship.phar
+
+      - name: Upload the PHAR to release
+        run: gh release upload ${{ github.event.release.tag_name }} builds/filaship.phar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cp filaship.phar to filaship
+        run: cp builds/filaship.phar builds/filaship
