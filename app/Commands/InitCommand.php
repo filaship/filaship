@@ -49,9 +49,9 @@ final class InitCommand extends Command
         $this->getCurrentDirectory();
 
         $this->serviceRegistry = new ServiceRegistry();
-        $this->services = new Collection();
-        $this->volumes  = new Collection();
-        $this->networks = new Collection();
+        $this->services        = new Collection();
+        $this->volumes         = new Collection();
+        $this->networks        = new Collection();
 
         if ($this->dockerComposeFileExists()) {
             info('🐳 Docker Compose file already exists.');
