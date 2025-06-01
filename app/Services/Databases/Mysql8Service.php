@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Filaship\Services\Databases;
 
 use Filaship\DockerCompose\Service;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\BaseService;
 
 class Mysql8Service extends BaseService
@@ -19,9 +20,9 @@ class Mysql8Service extends BaseService
         return 'MySQL 8.0 Database Server';
     }
 
-    public function getCategory(): string
+    public function getCategory(): ServiceCategories
     {
-        return 'database';
+        return ServiceCategories::DATABASE;
     }
 
     public function createService(): Service

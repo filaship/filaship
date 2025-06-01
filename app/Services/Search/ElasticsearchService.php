@@ -6,6 +6,7 @@ namespace Filaship\Services\Search;
 
 use Filaship\DockerCompose\Service;
 use Filaship\DockerCompose\Volume;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\BaseService;
 
 class ElasticsearchService extends BaseService
@@ -20,9 +21,9 @@ class ElasticsearchService extends BaseService
         return 'Elasticsearch 8.11 - Search and Analytics Engine';
     }
 
-    public function getCategory(): string
+    public function getCategory(): ServiceCategories
     {
-        return 'search';
+        return ServiceCategories::SEARCH;
     }
 
     public function createService(): Service

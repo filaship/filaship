@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Filaship\Services\Storage;
 
 use Filaship\DockerCompose\Service;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\BaseService;
 
 class MinioService extends BaseService
@@ -19,9 +20,9 @@ class MinioService extends BaseService
         return 'MinIO S3-Compatible Object Storage';
     }
 
-    public function getCategory(): string
+    public function getCategory(): ServiceCategories
     {
-        return 'storage';
+        return ServiceCategories::STORAGE;
     }
 
     public function createService(): Service

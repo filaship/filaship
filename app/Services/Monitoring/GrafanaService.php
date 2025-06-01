@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Filaship\Services\Monitoring;
 
 use Filaship\DockerCompose\Service;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\BaseService;
 
 class GrafanaService extends BaseService
@@ -19,9 +20,9 @@ class GrafanaService extends BaseService
         return 'Grafana Analytics & Monitoring Dashboard';
     }
 
-    public function getCategory(): string
+    public function getCategory(): ServiceCategories
     {
-        return 'monitoring';
+        return ServiceCategories::MONITORING;
     }
 
     public function createService(): Service

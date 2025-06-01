@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Filaship\Services\Caches;
 
 use Filaship\DockerCompose\Service;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\BaseService;
 
 class Redis7Service extends BaseService
@@ -19,9 +20,9 @@ class Redis7Service extends BaseService
         return 'Redis 7 In-Memory Cache & Message Broker';
     }
 
-    public function getCategory(): string
+    public function getCategory(): ServiceCategories
     {
-        return 'cache';
+        return ServiceCategories::CACHE;
     }
 
     public function createService(): Service
