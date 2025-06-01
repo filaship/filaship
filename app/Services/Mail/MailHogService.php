@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Filaship\Services\Mail;
 
 use Filaship\DockerCompose\Service;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\BaseService;
 
 class MailHogService extends BaseService
@@ -19,9 +20,9 @@ class MailHogService extends BaseService
         return 'MailHog Email Testing Tool';
     }
 
-    public function getCategory(): string
+    public function getCategory(): ServiceCategories
     {
-        return 'mail';
+        return ServiceCategories::MAIL;
     }
 
     public function createService(): Service

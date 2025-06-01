@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Filaship\Services\Tools;
 
 use Filaship\DockerCompose\Service;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\BaseService;
 
 class AdminerService extends BaseService
@@ -19,9 +20,9 @@ class AdminerService extends BaseService
         return 'Adminer Database Management Tool';
     }
 
-    public function getCategory(): string
+    public function getCategory(): ServiceCategories
     {
-        return 'tool';
+        return ServiceCategories::TOOL;
     }
 
     public function createService(): Service

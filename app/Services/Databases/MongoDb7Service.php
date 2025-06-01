@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Filaship\Services\Databases;
 
 use Filaship\DockerCompose\Service;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\BaseService;
 
 class MongoDb7Service extends BaseService
@@ -19,9 +20,9 @@ class MongoDb7Service extends BaseService
         return 'MongoDB 7 NoSQL Database';
     }
 
-    public function getCategory(): string
+    public function getCategory(): ServiceCategories
     {
-        return 'database';
+        return ServiceCategories::DATABASE;
     }
 
     public function createService(): Service

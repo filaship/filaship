@@ -7,8 +7,11 @@ namespace Filaship\Commands;
 use Filaship\Concerns\CommandCommons;
 use Filaship\DockerCompose\DockerCompose;
 use Filaship\DockerCompose\Network;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\ServiceRegistry;
 use Illuminate\Support\Collection;
+
+use Illuminate\Support\Str;
 
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
@@ -176,6 +179,7 @@ final class InitCommand extends Command
         );
 
         foreach ($selectedCategories as $category) {
+            $category = ServiceCategories::tryFrom(Str::lower($category));
             $this->askForCategoryServices($category);
         }
     }
@@ -183,24 +187,11 @@ final class InitCommand extends Command
     /**
      * Ask user to select services from a specific category
      */
-    private function askForCategoryServices(string $category): void
+    private function askForCategoryServices(ServiceCategories $category): void
     {
         $services = $this->serviceRegistry->getServicesByCategory($category);
 
-        if (empty($services)) {
-            return;
-        }
-
-        $categoryName = match ($category) {
-            'database'   => 'Database',
-            'cache'      => 'Cache',
-            'monitoring' => 'Monitoring',
-            'mail'       => 'Email Testing',
-            'storage'    => 'Storage',
-            'search'     => 'Search Engine',
-            'tool'       => 'Development Tool',
-            default      => ucfirst($category)
-        };
+        $categoryName = $category->label();
 
         note("📋 {$categoryName} Services");
 
@@ -210,8 +201,7 @@ final class InitCommand extends Command
             $serviceOptions[$service->getName()] = $service->getDescription();
         }
 
-        if ($category === 'database') {
-            // For database, allow only one selection
+        if (! $category->allowMultiSelection()) {
             $selectedService = select(
                 label: "Which {$categoryName} service would you like to use?",
                 options: array_merge(['none' => 'None'], $serviceOptions),
@@ -219,25 +209,28 @@ final class InitCommand extends Command
                 hint: 'Choose the database that best fits your application'
             );
 
-            if ($selectedService !== 'none') {
-                $this->addService($selectedService);
+            if ($selectedService === 'none') {
+                return;
             }
-        } else {
-            // For other categories, allow multiple selections
-            $selectedServices = multiselect(
-                label: "Which {$categoryName} services would you like to add?",
-                options: $serviceOptions,
-                hint: 'Select services you want to include (use space to select, enter to confirm)'
-            );
 
-            foreach ($selectedServices as $serviceName) {
-                $this->addService($serviceName);
-            }
+            $this->addService($selectedService);
+
+            return;
+        }
+
+        $selectedServices = multiselect(
+            label: "Which {$categoryName} services would you like to add?",
+            options: $serviceOptions,
+            hint: 'Select services you want to include (use space to select, enter to confirm)'
+        );
+
+        foreach ($selectedServices as $serviceName) {
+            $this->addService($serviceName);
         }
     }
 
     /**
-     * Add a service to the compose configuration
+     * Add a service to the composed configuration
      */
     private function addService(string $serviceName): void
     {
@@ -251,29 +244,22 @@ final class InitCommand extends Command
 
         info("➕ Adding {$serviceTemplate->getDescription()}...");
 
-        // Create the service
+        // Prepare service
         $service = $serviceTemplate->createService();
 
-        // Configure the service to use the project network
         $service->networks = [$this->projectName];
 
-        // Add service to collection
         $this->services->put($serviceName, $service);
 
-        // Add required volumes
         foreach ($serviceTemplate->getRequiredVolumes() as $volume) {
             $this->volumes->put($volume->name, $volume);
         }
 
-        // Update app service dependencies if it exists
         $this->updateAppServiceDependencies($serviceName, $serviceTemplate);
 
         info("✅ {$serviceTemplate->getDescription()} added successfully!");
     }
 
-    /**
-     * Update app service with dependencies and environment variables
-     */
     private function updateAppServiceDependencies(string $serviceName, $serviceTemplate): void
     {
         if (! $this->services->has('app')) {
@@ -282,46 +268,7 @@ final class InitCommand extends Command
 
         $app = $this->services->get('app');
 
-        // Add dependency
         $app->dependsOn = array_merge($app->dependsOn ?? [], [$serviceName]);
-
-        // Add connection environment variable based on service type
-        $category      = $serviceTemplate->getCategory();
-        $connectionVar = match ($category) {
-            'database' => $this->getDatabaseConnectionVar($serviceName, $serviceTemplate),
-            'cache'    => $this->getCacheConnectionVar($serviceName, $serviceTemplate),
-            default    => null
-        };
-
-        if ($connectionVar) {
-            $app->environment = array_merge($app->environment ?? [], [$connectionVar]);
-        }
-    }
-
-    /**
-     * Get database connection environment variable
-     */
-    private function getDatabaseConnectionVar(string $serviceName, $serviceTemplate): ?string
-    {
-        return match ($serviceName) {
-            'mysql'    => 'DATABASE_URL=mysql://user:password@mysql:3306/app',
-            'postgres' => 'DATABASE_URL=postgresql://user:password@postgres:5432/app',
-            'mongodb'  => 'DATABASE_URL=mongodb://admin:password@mongodb:27017/app',
-            'mariadb'  => 'DATABASE_URL=mysql://user:password@mariadb:3306/app',
-            default    => null
-        };
-    }
-
-    /**
-     * Get cache connection environment variable
-     */
-    private function getCacheConnectionVar(string $serviceName, $serviceTemplate): ?string
-    {
-        return match ($serviceName) {
-            'redis'     => 'REDIS_URL=redis://redis:6379',
-            'memcached' => 'MEMCACHED_URL=memcached://memcached:11211',
-            default     => null
-        };
     }
 
     private function createDockerComposeFile(): void

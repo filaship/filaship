@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Filaship\Services;
 
 use Filaship\Contracts\ServiceTemplateInterface;
+use Filaship\Enums\ServiceCategories;
 use Filaship\Services\Caches\MemcachedService;
 use Filaship\Services\Caches\Redis7Service;
 use Filaship\Services\Databases\MariaDb11Service;
@@ -33,15 +34,7 @@ class ServiceRegistry
 
     private function initializeCategories(): void
     {
-        $this->categories = [
-            'database'   => 'Databases',
-            'cache'      => 'Cache Systems',
-            'monitoring' => 'Monitoring',
-            'mail'       => 'Email Testing',
-            'storage'    => 'Storage Solutions',
-            'search'     => 'Search Engines',
-            'tool'       => 'Development Tools',
-        ];
+        $this->categories = ServiceCategories::cases();
     }
 
     private function registerServices(): void
@@ -65,8 +58,10 @@ class ServiceRegistry
         // Storage
         $this->register(new MinioService());
 
-        // Tools
+        // Mail
         $this->register(new MailHogService());
+
+        // Tools
         $this->register(new AdminerService());
     }
 
@@ -80,7 +75,7 @@ class ServiceRegistry
         return $this->services->get($name);
     }
 
-    public function getServicesByCategory(string $category): Collection
+    public function getServicesByCategory(ServiceCategories $category): Collection
     {
         return $this->services->filter(fn ($service) => $service->getCategory() === $category);
     }
@@ -102,36 +97,36 @@ class ServiceRegistry
 
     public function getDatabaseServices(): Collection
     {
-        return $this->getServicesByCategory('database');
+        return $this->getServicesByCategory(ServiceCategories::DATABASE);
     }
 
     public function getCacheServices(): Collection
     {
-        return $this->getServicesByCategory('cache');
+        return $this->getServicesByCategory(ServiceCategories::CACHE);
     }
 
     public function getMonitoringServices(): Collection
     {
-        return $this->getServicesByCategory('monitoring');
+        return $this->getServicesByCategory(ServiceCategories::MONITORING);
     }
 
     public function getToolServices(): Collection
     {
-        return $this->getServicesByCategory('tool');
+        return $this->getServicesByCategory(ServiceCategories::TOOL);
     }
 
     public function getMailServices(): Collection
     {
-        return $this->getServicesByCategory('mail');
+        return $this->getServicesByCategory(ServiceCategories::MAIL);
     }
 
     public function getStorageServices(): Collection
     {
-        return $this->getServicesByCategory('storage');
+        return $this->getServicesByCategory(ServiceCategories::STORAGE);
     }
 
     public function getSearchServices(): Collection
     {
-        return $this->getServicesByCategory('search');
+        return $this->getServicesByCategory(ServiceCategories::SEARCH);
     }
 }
